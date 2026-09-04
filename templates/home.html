@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h2>Welcome to ShelfControl</h2>
+
+    <p>You are logged in as: {{ session['user'] }}</p>
+
+    <ul>
+        <li><a href="/add_book">Add a New Book</a></li>
+        <li><a href="/inventory">View Inventory</a></li>
+        <li><a href="/search">Search Inventory</a></li>
+        <li><a href="/books/bulk_upload">Bulk Upload Books</a></li>
+        <li><a href="/login">Logout</a></li>
+    </ul>
+</body>
+</html>

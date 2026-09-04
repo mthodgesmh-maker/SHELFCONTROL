@@ -1,0 +1,20 @@
+<h2>Inventory</h2>
+
+<table border="1">
+    <tr>
+        <th>Title</th><th>Author</th><th>ISBN</th><th>Qty</th><th>Category</th>
+    </tr>
+
+    {% for book in books %}
+    <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.isbn }}</td>
+        <td>{{ book.quantity }}</td>
+        <td>{{ book.category }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% if session['user_role'] == 'manager' %}
+    <a href="/add_book">Add Book</a>
+{% endif %}
