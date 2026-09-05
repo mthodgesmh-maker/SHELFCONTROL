@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request
 from database.db import get_db
 from auth.roles import require_role
+import io
+import csv
 
 # Blueprint with URL prefix
 books = Blueprint("books", __name__, url_prefix="/books")
@@ -42,10 +44,11 @@ def bulk_upload_route():   # ← UNIQUE NAME
         if not file:
             return "No file uploaded."
 
-        import csv
         db = get_db()
 
-        reader = csv.DictReader(file.stream)
+        # Convert uploaded bytes → text for CSV reader
+        text_stream = io.TextIOWrapper(file.stream, encoding="utf-8")
+        reader = csv.DictReader(text_stream)
 
         for row in reader:
             db.execute("""
