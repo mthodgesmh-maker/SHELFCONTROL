@@ -57,11 +57,11 @@ def bulk_upload_route():   # ← UNIQUE NAME
                     INSERT INTO books (title, author, isbn, quantity, category)
                     VALUES (?, ?, ?, ?, ?)
                 """, (
-                    row.get("title", ""),
-                    row.get("author", ""),
-                    row.get("isbn", ""),
-                    row.get("quantity", 0),
-                    row.get("category", "")   # ← FIXED
+                    row.get("Title", ""),
+                    row.get("Author", ""),
+                    row.get("ISBN", ""),
+                    row.get("Quantity", 0),
+                    row.get("Category", "")   # ← FIXED
                 ))
             except sqlite3.IntegrityError:
                 # Duplicate ISBN — skip this row
