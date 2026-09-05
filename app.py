@@ -36,3 +36,9 @@ if __name__ == "__main__":
 
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+    import os
+
+db_path = os.path.join(os.getcwd(), "shelfcontrol.db")
+if os.path.exists(db_path):
+    os.remove(db_path)
+    print("Deleted old database.")

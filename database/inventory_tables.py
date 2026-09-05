@@ -9,11 +9,11 @@ def create_inventory_tables():
             author TEXT NOT NULL,
             isbn TEXT UNIQUE NOT NULL,
             quantity INTEGER NOT NULL,
-            category TEXT NOT NULL
+            genre TEXT NOT NULL
         )
     """)
     db.commit()
-from database.db import get_db
+
 
 def create_users_table():
     db = get_db()
