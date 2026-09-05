@@ -6,7 +6,7 @@ import csv
 import sqlite3
 
 # Blueprint with URL prefix
-books = Blueprint("books", __name__, url_prefix="/books")
+books = Blueprint("books", __name__,)
 
 # -----------------------------
 # Add a Single Book (Manager)
