@@ -10,7 +10,7 @@ books = Blueprint("books", __name__, url_prefix="/books")
 # -----------------------------
 @books.route("/add_book", methods=["GET", "POST"])
 @require_role("manager")
-def add_book():
+def add_book_route():   # ← UNIQUE NAME
     if request.method == "POST":
         title = request.form["title"]
         author = request.form["author"]
@@ -36,7 +36,7 @@ def add_book():
 # -----------------------------
 @books.route("/bulk_upload", methods=["GET", "POST"])
 @require_role("manager")
-def bulk_upload():
+def bulk_upload_route():   # ← UNIQUE NAME
     if request.method == "POST":
         file = request.files.get("file")
         if not file:
