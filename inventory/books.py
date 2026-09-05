@@ -3,6 +3,7 @@ from database.db import get_db
 from auth.roles import require_role
 import io
 import csv
+import sqlite3
 
 # Blueprint with URL prefix
 books = Blueprint("books", __name__, url_prefix="/books")
@@ -18,13 +19,13 @@ def add_book_route():   # ← UNIQUE NAME
         author = request.form["author"]
         isbn = request.form["isbn"]
         quantity = request.form["quantity"]
-        genre = request.form["category"]
+        category = request.form["category"]   # ← FIXED
 
         db = get_db()
         db.execute("""
-            INSERT INTO books (title, author, isbn, quantity, genre)
+            INSERT INTO books (title, author, isbn, quantity, category)
             VALUES (?, ?, ?, ?, ?)
-        """, (title, author, isbn, quantity, genre))
+        """, (title, author, isbn, quantity, category))   # ← FIXED
         db.commit()
         db.close()
 
@@ -46,10 +47,6 @@ def bulk_upload_route():   # ← UNIQUE NAME
 
         db = get_db()
 
-        import io
-        import csv
-        import sqlite3
-
         # Convert uploaded bytes → text using Excel‑safe encoding
         text_stream = io.TextIOWrapper(file.stream, encoding="latin-1")
         reader = csv.DictReader(text_stream)
@@ -57,14 +54,14 @@ def bulk_upload_route():   # ← UNIQUE NAME
         for row in reader:
             try:
                 db.execute("""
-                    INSERT INTO books (title, author, isbn, quantity, genre)
+                    INSERT INTO books (title, author, isbn, quantity, category)
                     VALUES (?, ?, ?, ?, ?)
                 """, (
                     row.get("title", ""),
                     row.get("author", ""),
                     row.get("isbn", ""),
                     row.get("quantity", 0),
-                    row.get("genre", "")
+                    row.get("category", "")   # ← FIXED
                 ))
             except sqlite3.IntegrityError:
                 # Duplicate ISBN — skip this row

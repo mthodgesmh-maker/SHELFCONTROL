@@ -9,7 +9,7 @@ def create_inventory_tables():
             author TEXT NOT NULL,
             isbn TEXT UNIQUE NOT NULL,
             quantity INTEGER NOT NULL,
-            genre TEXT NOT NULL
+            category TEXT NOT NULL
         )
     """)
     db.commit()
