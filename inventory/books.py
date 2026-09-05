@@ -46,8 +46,8 @@ def bulk_upload_route():   # ← UNIQUE NAME
 
         db = get_db()
 
-        # Convert uploaded bytes → text for CSV reader
-        text_stream = io.TextIOWrapper(file.stream, encoding="utf-8")
+        # Convert uploaded bytes → text using Excel‑safe encoding
+        text_stream = io.TextIOWrapper(file.stream, encoding="latin-1")
         reader = csv.DictReader(text_stream)
 
         for row in reader:
