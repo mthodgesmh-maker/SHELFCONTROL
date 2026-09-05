@@ -46,21 +46,29 @@ def bulk_upload_route():   # ← UNIQUE NAME
 
         db = get_db()
 
+        import io
+        import csv
+        import sqlite3
+
         # Convert uploaded bytes → text using Excel‑safe encoding
         text_stream = io.TextIOWrapper(file.stream, encoding="latin-1")
         reader = csv.DictReader(text_stream)
 
         for row in reader:
-            db.execute("""
-                INSERT INTO books (title, author, isbn, quantity, genre)
-                VALUES (?, ?, ?, ?, ?)
-            """, (
-                row.get("title", ""),
-                row.get("author", ""),
-                row.get("isbn", ""),
-                row.get("quantity", 0),
-                row.get("genre", "")
-            ))
+            try:
+                db.execute("""
+                    INSERT INTO books (title, author, isbn, quantity, genre)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (
+                    row.get("title", ""),
+                    row.get("author", ""),
+                    row.get("isbn", ""),
+                    row.get("quantity", 0),
+                    row.get("genre", "")
+                ))
+            except sqlite3.IntegrityError:
+                # Duplicate ISBN — skip this row
+                continue
 
         db.commit()
         db.close()
